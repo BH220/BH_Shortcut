@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BH Shortcut</title>
+<meta name="description" content="자주 쓰는 원격 연결과 프로그램을 단축명 하나로 등록해 두고 한곳에서 관리하는 Windows 앱" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 456 456'%3E%3Crect width='456' height='456' rx='96' fill='%234F5BD5'/%3E%3Crect x='96' y='140' width='264' height='176' rx='22' fill='%23fff'/%3E%3Crect x='124' y='168' width='44' height='40' rx='8' fill='%23C9CEE8'/%3E%3Crect x='178' y='168' width='44' height='40' rx='8' fill='%23C9CEE8'/%3E%3Crect x='232' y='168' width='44' height='40' rx='8' fill='%23C9CEE8'/%3E%3Crect x='286' y='168' width='44' height='40' rx='8' fill='%23F5B301'/%3E%3Crect x='124' y='222' width='44' height='40' rx='8' fill='%23C9CEE8'/%3E%3Crect x='178' y='222' width='98' height='40' rx='8' fill='%234F5BD5'/%3E%3Crect x='286' y='222' width='44' height='40' rx='8' fill='%23C9CEE8'/%3E%3Crect x='124' y='276' width='206' height='18' rx='6' fill='%23C9CEE8'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    --surface:#202124; --raised:#35363A; --sunken:#28292C;
+    --border:#4A4D52; --accent:#4F5BD5; --accent-press:#3F4AB8; --accent-text:#A9B0F5;
+    --text:#E8EAED; --muted:#9AA0A6; --gold:#F5B301; --success:#13924B; --danger:#C8262C;
+    --radius:10px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--surface); color:var(--text);
+    font-family:"Segoe UI","Malgun Gothic",system-ui,-apple-system,sans-serif;
+    font-size:15px; line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-text); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px}
+  .logo{display:block; flex:none}
+
+  header{border-bottom:1px solid var(--border); background:rgba(32,33,36,.85);
+    backdrop-filter:blur(8px); position:sticky; top:0; z-index:10}
+  .bar{display:flex; align-items:center; gap:12px; height:60px}
+  .bar .logo{width:26px; height:26px}
+  .bar strong{font-size:15px; letter-spacing:-.2px}
+  .bar .pub{color:var(--muted); font-size:12.5px}
+  .bar nav{margin-left:auto; display:flex; gap:20px; font-size:13.5px}
+  .bar nav a{color:var(--muted)}
+  .bar nav a:hover{color:var(--text); text-decoration:none}
+
+  .hero{padding:72px 0 56px; text-align:center;
+    background:radial-gradient(900px 380px at 50% -120px, rgba(79,91,213,.26), transparent 70%)}
+  .hero .logo{width:76px; height:76px; margin:0 auto 22px}
+  .hero h1{margin:0 0 12px; font-size:40px; line-height:1.25; letter-spacing:-.8px}
+  .hero .sub{margin:0 auto 26px; max-width:620px; color:var(--muted); font-size:16.5px}
+  .badges{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:30px}
+  .badge{border:1px solid var(--border); background:var(--sunken); color:var(--muted);
+    border-radius:999px; padding:5px 13px; font-size:12.5px}
+  .badge b{color:var(--text); font-weight:600}
+  .cta{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:center}
+  .btn{display:inline-block; border-radius:var(--radius); padding:13px 30px;
+    font-size:15px; font-weight:600; border:1px solid transparent; cursor:pointer}
+  .btn small{display:block; font-size:11.5px; font-weight:400; opacity:.8; margin-top:1px}
+  .btn-primary{background:var(--accent); color:#fff}
+  .btn-primary:hover{background:var(--accent-press); text-decoration:none}
+  .btn-ghost{background:transparent; color:var(--text); border-color:var(--border)}
+  .btn-ghost:hover{background:var(--raised); text-decoration:none}
+  .cta .hint{width:100%; color:var(--muted); font-size:12.5px; margin-top:6px}
+
+  section{padding:52px 0; border-top:1px solid var(--border)}
+  h2{margin:0 0 6px; font-size:22px; letter-spacing:-.4px}
+  .lead{margin:0 0 28px; color:var(--muted); font-size:14px}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px}
+  .card{background:var(--sunken); border:1px solid var(--border); border-radius:var(--radius); padding:22px}
+  .card h3{margin:0 0 8px; font-size:15.5px}
+  .card p{margin:0; color:var(--muted); font-size:14px}
+  .dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px; vertical-align:1px}
+
+  .table-wrap{overflow-x:auto}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th,td{text-align:left; padding:13px 14px; border-bottom:1px solid var(--border); vertical-align:top}
+  th{width:190px; color:var(--muted); font-weight:500; white-space:nowrap}
+  tr:last-child th,tr:last-child td{border-bottom:none}
+  thead th{color:var(--text); font-weight:600; border-bottom:1px solid var(--border)}
+  .req th{width:150px}
+  kbd{font-family:Consolas,"D2Coding",monospace; font-size:12px; background:var(--raised);
+    border:1px solid var(--border); border-bottom-width:2px; border-radius:5px; padding:1px 6px; color:var(--text)}
+  code{font-family:Consolas,"D2Coding",monospace; font-size:13px; background:var(--raised);
+    border:1px solid var(--border); border-radius:5px; padding:1px 6px; color:var(--text)}
+  pre{background:var(--sunken); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 18px; overflow-x:auto; margin:0; font-size:13.5px; line-height:1.6}
+  pre code{background:none; border:none; padding:0}
+
+  .note{background:var(--sunken); border:1px solid var(--border);
+    border-left:3px solid var(--accent); border-radius:var(--radius); padding:20px 22px; margin-bottom:16px}
+  .note h3{margin:0 0 8px; font-size:15px}
+  .note p{margin:0 0 12px; color:var(--muted); font-size:14px}
+  .note p:last-child{margin-bottom:0}
+  .note ol{margin:0; padding-left:20px; color:var(--muted); font-size:14px}
+  .note li{margin-bottom:4px}
+
+  footer{border-top:1px solid var(--border); padding:30px 0 44px; color:var(--muted); font-size:13px}
+  .foot{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+  .foot .right{margin-left:auto}
+
+  @media (max-width:640px){
+    .hero{padding:52px 0 40px}
+    .hero h1{font-size:30px}
+    .bar nav{display:none}
+    .btn{width:100%}
+    .req th{width:auto; display:block; padding-bottom:0; border:none}
+    .req td{display:block; padding-top:4px}
+  }
+</style>
+</head>
+<body>
+
+<!-- 앱 아이콘을 한 번 정의하고 <use> 로 재사용합니다. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="appicon" viewBox="0 0 456 456">
+      <rect width="456" height="456" rx="96" fill="#4F5BD5" />
+      <rect x="96" y="140" width="264" height="176" rx="22" fill="#FFFFFF" />
+      <rect x="124" y="168" width="44" height="40" rx="8" fill="#C9CEE8" />
+      <rect x="178" y="168" width="44" height="40" rx="8" fill="#C9CEE8" />
+      <rect x="232" y="168" width="44" height="40" rx="8" fill="#C9CEE8" />
+      <rect x="286" y="168" width="44" height="40" rx="8" fill="#F5B301" />
+      <rect x="124" y="222" width="44" height="40" rx="8" fill="#C9CEE8" />
+      <rect x="178" y="222" width="98" height="40" rx="8" fill="#4F5BD5" />
+      <rect x="286" y="222" width="44" height="40" rx="8" fill="#C9CEE8" />
+      <rect x="124" y="276" width="206" height="18" rx="6" fill="#C9CEE8" />
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap bar">
+    <svg class="logo" aria-hidden="true"><use href="#appicon" /></svg>
+    <strong>BH Shortcut</strong>
+    <span class="pub">BH Soft</span>
+    <nav>
+      <a href="#features">기능</a>
+      <a href="#requirements">설치 사양</a>
+      <a href="#setup">설치 방법</a>
+      <a href="#build">빌드</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <svg class="logo" aria-hidden="true"><use href="#appicon" /></svg>
+    <h1>자주 쓰는 연결과 프로그램을 단축명 하나로</h1>
+    <p class="sub">원격 데스크톱 접속 정보와 실행 파일을 단축명으로 등록해 두고 한 목록에서 관리합니다. 목록은 JSON 파일로 내보내거나 로그인한 뒤 서버와 주고받습니다.</p>
+    <div class="badges">
+      <span class="badge">PC <b id="version">1.0.0</b></span>
+      <span class="badge">Windows <b>10 / 11</b> (64비트)</span>
+      <span class="badge">.NET <b>8</b></span>
+      <span class="badge">게시자 <b>BH Soft</b></span>
+    </div>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/BH220/BH_Shortcut/releases">Windows용 설치하기<small data-size>설치 관리자</small></a>
+      <a class="btn btn-ghost" href="https://github.com/BH220/BH_Shortcut">GitHub 저장소<small>소스 코드</small></a>
+      <span class="hint">설치 관리자는 필요한 런타임을 함께 설치합니다. 소스에서 직접 빌드하려면 아래 빌드 항목을 참고하세요.</span>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>무엇을 하나</h2>
+    <p class="lead">여기저기 흩어진 접속 정보와 실행 경로를 한 목록에서 찾고, 고치고, 옮깁니다.</p>
+    <div class="cards">
+      <div class="card">
+        <h3><span class="dot" style="background:#4F5BD5"></span>목록 관리</h3>
+        <p>구분, 단축명, 프로그램명을 한눈에 보는 목록에서 새 명령을 추가하고 저장·삭제합니다.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:#F5B301"></span>원격 연결</h3>
+        <p>주소, 포트, 가로·세로 크기를 등록해 원격 데스크톱 접속 정보를 단축명으로 보관합니다.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:#13924B"></span>프로그램 실행</h3>
+        <p>실행 파일을 골라 전체 경로를 등록합니다. 프로그램명을 비워 두면 파일명으로 채워집니다.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:#C8262C"></span>오프라인 업로드 · 다운로드</h3>
+        <p>목록을 JSON 파일로 내보내고, 다른 PC에서 그 파일을 골라 그대로 들여옵니다.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:#8AB4F8"></span>온라인 업로드 · 다운로드</h3>
+        <p>로그인한 뒤 서버에 목록을 올리고 받아 옵니다. 로그인 정보는 화면에 표시되고 링크 하나로 로그아웃합니다.</p>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:#C9CEE8"></span>DB 직접 접근 없음</h3>
+        <p>앱은 데이터베이스에 직접 붙지 않습니다. 모든 조회와 저장은 인증된 서버 API를 통해서만 이뤄집니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="requirements">
+  <div class="wrap">
+    <h2>최소 설치 사양</h2>
+    <p class="lead">설치 관리자는 부족한 런타임을 자동으로 채워 넣습니다.</p>
+    <div class="table-wrap">
+    <table class="req">
+      <thead><tr><th>Windows</th><td></td></tr></thead>
+      <tr><th>운영체제</th><td>Windows 10 또는 Windows 11 — 64비트</td></tr>
+      <tr><th>런타임</th><td>.NET 데스크톱 런타임 8.0 (x64) — 없으면 설치 관리자가 함께 설치합니다</td></tr>
+      <tr><th>권한</th><td>관리자 권한으로 실행됩니다. 실행할 때 UAC 확인 창이 뜹니다</td></tr>
+      <tr><th>다운로드 크기</th><td><span data-size>—</span> (런타임 별도)</td></tr>
+    </table>
+    </div>
+    <div class="table-wrap" style="margin-top:28px">
+    <table class="req">
+      <thead><tr><th>온라인 기능</th><td></td></tr></thead>
+      <tr><th>네트워크</th><td>BH Shortcut 서버(API)에 HTTPS로 접속할 수 있어야 합니다</td></tr>
+      <tr><th>계정</th><td>관리자에게 발급받은 사용자 계정</td></tr>
+      <tr><th>오프라인</th><td>JSON 내보내기·들여오기는 서버 없이 동작합니다</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="wrap">
+    <h2>설치 방법</h2>
+    <p class="lead">처음 한 번만 확인하면 됩니다.</p>
+
+    <div class="note">
+      <h3>1. Windows에 설치</h3>
+      <ol>
+        <li><b>Windows용 설치하기</b>를 눌러 설치 파일을 받고 압축을 풉니다.</li>
+        <li><code>install.exe</code>를 실행합니다. "Windows의 PC 보호" 창이 뜨면 <b>추가 정보 → 실행</b>을 누릅니다.</li>
+        <li>설치가 끝나면 바탕 화면이나 시작 메뉴의 <b>BH Shortcut</b>을 실행합니다.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <h3>2. 단축명 등록</h3>
+      <ol>
+        <li>목록 오른쪽 위 <b>새 명령</b>을 누르고 단축명과 프로그램명을 적습니다.</li>
+        <li>구분에서 <b>원격연결</b>을 고르면 주소·포트·가로·세로 크기를, <b>프로그램</b>을 고르면 <b>찾아보기</b>로 실행 파일을 지정합니다.</li>
+        <li><b>저장</b>을 누르면 목록에 들어갑니다. 목록에서 항목을 고르면 같은 자리에서 고치거나 <b>삭제</b>할 수 있습니다.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <h3>3. 서버 주소와 로그인</h3>
+      <p>온라인 업로드·다운로드를 고르면 로그인 창이 열립니다. 관리자에게 받은 서버 주소는 <code>%ProgramData%\BH Soft\BH Shortcut\settings\ServerSetting.json</code>에 저장되며, 로그인하면 다운로드 버튼 옆에 <b>[아이디(이름)]</b>이 표시됩니다. 다른 기기에서 이미 로그인 중이면 확인을 거쳐 이 기기로 세션을 옮깁니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap">
+    <h2>소스에서 빌드</h2>
+    <p class="lead">.NET 8 SDK가 있으면 명령 한 줄로 빌드됩니다. Visual Studio 2022에서는 <code>BH_Shortcut.sln</code>을 열고 <code>BH_Shortcut</code>을 시작 프로젝트로 실행합니다.</p>
+<pre><code>git clone https://github.com/BH220/BH_Shortcut.git
+cd BH_Shortcut
+dotnet build BH_Shortcut.sln -c Release</code></pre>
+    <div class="table-wrap" style="margin-top:28px">
+    <table>
+      <thead><tr><th>프로젝트</th><td>역할</td></tr></thead>
+      <tr><th><code>BH_Shortcut</code></th><td>WPF 앱. 화면, 뷰모델, 다이얼로그 서비스. UI는 WPF-UI(Fluent) 기반</td></tr>
+      <tr><th><code>BH_Shortcut.Api</code></th><td>서버 통신. 로그인·세션, 업로드·다운로드 API 호출</td></tr>
+      <tr><th><code>BH_Shortcut.Core</code></th><td>공통 모듈. 설정 파일, 세션 모델, 로그, 경로·문자열 유틸리티</td></tr>
+      <tr><th><code>Doc</code></th><td>이 페이지를 포함한 배포용 문서</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>BH Shortcut · 게시자 <b>BH Soft</b></div>
+    <div class="right"><a href="https://github.com/BH220/BH_Shortcut">github.com/BH220/BH_Shortcut</a></div>
+  </div>
+</footer>
+
+<script>
+// 버전과 다운로드 용량은 같은 경로의 index.json 에서 읽습니다.
+//   { "ver": "1.0.0", "vol": "약 10MB" }
+// 못 읽으면(로컬에서 직접 열어 본 경우 등) 적혀 있는 값을 그대로 둡니다.
+fetch('index.json', { cache: 'no-store' })
+  .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('not found')); })
+  .then(function (info) {
+    if (info.ver) { document.getElementById('version').textContent = info.ver; }
+    if (info.vol) {
+      document.querySelectorAll('[data-size]').forEach(function (el) { el.textContent = info.vol; });
+    }
+  })
+  .catch(function () {});
+</script>
+
+</body>
+</html>
